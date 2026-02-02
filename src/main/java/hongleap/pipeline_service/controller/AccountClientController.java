@@ -5,12 +5,14 @@ import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/client/account")
 public class AccountClientController {
@@ -26,6 +28,7 @@ public class AccountClientController {
 //    @CircuitBreaker(name = "account", fallbackMethod = "getSecuredDataFallback")
     @GetMapping("/secured")
     public Map<String, Object> getSecuredData(){
+        log.debug("getSecured");
         try {
             return circuitBreaker.executeSupplier(accountClient::getSecuredData);
         } catch (CallNotPermittedException e){
