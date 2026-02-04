@@ -11,6 +11,34 @@ spring:
     active: dev
   config:
     import: optional:configserver:http://localhost:8888
+  cloud:
+    function:
+      definition: processProduct;processMessage;processProductDetail
+    stream:
+      bindings:
+        processProductDetail-in-0:
+          destination: product-detail # topic_name
+          group: monitor-group2 #consumer_group_id
+          content-type: application/json
+        processProduct-in-0:
+          destination: test-product
+          group: monitor-group
+          content-type: application/json
+        processMessage-in-0:
+          destination: test-topic
+        processProductDetail-out-0:
+          destination: processed-product-detail
+          content-type: application/json
+      Kafka:
+        binder:
+          brokers: localhost:29092,localhost:29094,localhost:29096
+          configuration:
+            auto.offset.reset: earliest
+  #      kafka:
+#        binder:
+#          brokers: localhost:29092,localhost:29094,localhost:29096
+#          configuration:
+#            auto.offset.reset: earliest
   security:
     oauth2:
       resourceserver:
