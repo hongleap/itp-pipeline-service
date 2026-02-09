@@ -1,4 +1,4 @@
-package hongleap.pipeline_service.stream;
+package hongleap.pipeline_service.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
